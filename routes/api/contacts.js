@@ -11,6 +11,10 @@ const {
   updateContact,
 } = require('../../models/contacts');
 
+const notFoundMsg = res => {
+  res.status(404).json({ message: 'Contact not found' });
+};
+
 router.get('/', async (req, res) => {
   res.json(await listContacts());
 });
@@ -20,7 +24,7 @@ router.get('/:contactId', async (req, res) => {
   if (contact) {
     res.json(contact);
   } else {
-    res.status(404).json({ message: 'Contact not found' });
+    notFoundMsg(res);
   }
 });
 
@@ -34,7 +38,7 @@ router.delete('/:contactId', async (req, res) => {
   if (contact) {
     res.json({ message: 'Contact deleted' });
   } else {
-    res.status(404).json({ message: 'Contact not found' });
+    notFoundMsg(res);
   }
 });
 
@@ -43,7 +47,7 @@ router.put('/:contactId', validateContact(schemaEdit), async (req, res) => {
   if (contact) {
     res.json(contact);
   } else {
-    res.status(404).json({ message: 'Contact not found' });
+    notFoundMsg(res);
   }
 });
 
