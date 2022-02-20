@@ -14,9 +14,8 @@ const listContacts = async () => {
 
 const getContactById = async contactId => {
   try {
-    const foundContact = JSON.parse(await fs.readFile(contactsPath)).find(
-      contact => contact.id === contactId,
-    );
+    const contacts = await listContacts();
+    const foundContact = contacts.find(contact => contact.id === contactId);
     if (foundContact) {
       return foundContact;
     }
@@ -28,7 +27,7 @@ const getContactById = async contactId => {
 
 const removeContact = async contactId => {
   try {
-    const contacts = JSON.parse(await fs.readFile(contactsPath));
+    const contacts = await listContacts();
     const index = contacts.findIndex(contact => contact.id === contactId);
     if (index >= 0) {
       const deletedContact = contacts.splice(index, 1);
@@ -43,7 +42,7 @@ const removeContact = async contactId => {
 
 const addContact = async body => {
   try {
-    const contacts = JSON.parse(await fs.readFile(contactsPath));
+    const contacts = await listContacts();
     contacts.push({ id: v4(), ...body });
     fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
   } catch (err) {
@@ -53,7 +52,7 @@ const addContact = async body => {
 
 const updateContact = async (contactId, body) => {
   try {
-    const contacts = JSON.parse(await fs.readFile(contactsPath));
+    const contacts = await listContacts();
     const index = contacts.findIndex(contact => contact.id === contactId);
     if (index >= 0) {
       contacts[index] = { ...contacts[index], ...body };
