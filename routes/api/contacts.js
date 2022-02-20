@@ -11,7 +11,7 @@ const {
   updateContact,
 } = require('../../models/contacts');
 
-router.get('/', async (_req, res) => {
+router.get('/', async (req, res) => {
   res.json(await listContacts());
 });
 

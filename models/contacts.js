@@ -20,7 +20,7 @@ const getContactById = async contactId => {
     if (foundContact) {
       return foundContact;
     }
-    return false;
+    return null;
   } catch (err) {
     return err.message;
   }
